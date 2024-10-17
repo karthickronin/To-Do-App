@@ -1,0 +1,21 @@
+POST http://localhost:3000/todos
+Content-Type: application/json
+
+{
+  "title": "Test Todo 3",
+  "description": "This is a test todo 3"
+}
+###
+GET http://localhost:3000/todos
+
+###
+PUT http://localhost:3000/todos/66fbda9841624eeb6ec6b006
+Content-Type: application/json
+
+{
+  "title": "Karthick Revathi",
+  "description": "Forever & Always :)"
+}
+
+###
+DELETE http://localhost:3000/todos/66fbdaf241624eeb6ec6b00a
