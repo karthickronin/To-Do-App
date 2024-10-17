@@ -9,7 +9,7 @@ const PORT = 8000;
 
 // connnecting mongodb
 mongoose
-  .connect("mongodb://localhost:27017/mern-app")
+  .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("Database connected");
   })
