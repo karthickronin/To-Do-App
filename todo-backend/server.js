@@ -9,7 +9,7 @@ const PORT = 8000;
 
 // connnecting mongodb
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI || "https://mong")
   .then(() => {
     console.log("Database connected");
   })
