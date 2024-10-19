@@ -9,7 +9,7 @@ const PORT = 8000;
 
 // connnecting mongodb
 mongoose
-  .connect(process.env.MONGO_URI || "https://mong")
+  .connect(process.env.MONGO_URI || "mongodb+srv://karthimad7707:333@items.hfewo.mongodb.net/to-do-app?retryWrites=true&w=majority&appName=Items")
   .then(() => {
     console.log("Database connected");
   })
