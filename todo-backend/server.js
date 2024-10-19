@@ -43,6 +43,10 @@ app.post("/todos", async (req, res) => {
   }
 });
 
+app.get("/",(req,res)=>{
+  res.send("Hello World")
+})
+
 app.get("/todos", async (req, res) => {
   try {
     const todos = await todoModel.find();
