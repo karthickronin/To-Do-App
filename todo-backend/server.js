@@ -10,7 +10,7 @@ const PORT = 5000;
 
 // Connecting to MongoDB
 mongoose
-  .connect("mongodb+srv://karthick:777@cluster0.hfewo.mongodb.net/mern-app?retryWrites=true&w=majority&appName=Cluster0", {
+  .connect("mongodb+srv://karthick:777@cluster0.hfewo.mongodb.net/to-do-app?retryWrites=true&w=majority", {
     serverApi: {
       version: '1',  // Stable API version
       strict: true,
