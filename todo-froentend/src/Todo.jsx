@@ -11,7 +11,7 @@ export default function Todo() {
   const [editTitle, setEditTitle] = useState("karthick");
   const [editDescription, setEditDescription] = useState("ronin");
 
-  const API = "https://to-do-app-5-kc2d.onrender.com";
+  const API = "https://to-do-app-6-b6ct.onrender.com";
 
   const handleSubmit = () => {
     if (title.trim() !== "" && description.trim() !== "") {
