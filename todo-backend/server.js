@@ -9,12 +9,12 @@ const PORT = 5000;
 
 // connnecting mongodb
 mongoose
-  .connect("mongodb+srv://karthimad7707:333@cluster0.hfewo.mongodb.net/mern-app?retryWrites=true&w=majority&appName=Cluster0")
+  .connect("mongodb+srv://karthick:777@cluster0.hfewo.mongodb.net/mern-app?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => {
     console.log("Database connected");
   })
   .catch((err) => {
-    console.log(err);
+    console.log(err.message);
   });
 
 // creating Schema

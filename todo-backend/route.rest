@@ -19,3 +19,11 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:3000/todos/66fbdaf241624eeb6ec6b00a
+###
+POST https://to-do-app-6-b6ct.onrender.com/todos
+Content-Type: application/json
+
+{
+  "title": "Test Todo 3",
+  "description": "This is a test todo 3"
+}
