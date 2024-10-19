@@ -9,7 +9,7 @@ const PORT = 5000;
 
 // connnecting mongodb
 mongoose
-  .connect(process.env.MONGO_URI || "mongodb+srv://karthimad7707:333@items.hfewo.mongodb.net/mern-app?retryWrites=true&w=majority&appName=Items")
+  .connect("mongodb+srv://karthimad7707:333@cluster0.hfewo.mongodb.net/mern-app?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => {
     console.log("Database connected");
   })
