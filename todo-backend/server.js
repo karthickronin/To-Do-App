@@ -44,7 +44,7 @@ app.post("/todos", async (req, res) => {
 });
 
 app.get("/",(req,res)=>{
-  res.send("Hello World")
+  res.send("Hello to my World")
 })
 
 app.get("/todos", async (req, res) => {
