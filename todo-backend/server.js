@@ -5,89 +5,106 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+
 const PORT = 5000;
 
-// connnecting mongodb
+// Connecting to MongoDB
 mongoose
-  .connect("mongodb+srv://karthick:777@cluster0.hfewo.mongodb.net/mern-app?retryWrites=true&w=majority&appName=Cluster0")
+  .connect("mongodb+srv://karthick:777@cluster0.hfewo.mongodb.net/mern-app?retryWrites=true&w=majority&appName=Cluster0", {
+    serverApi: {
+      version: '1',  // Stable API version
+      strict: true,
+      deprecationErrors: true,
+    },
+  })
   .then(() => {
     console.log("Database connected");
   })
   .catch((err) => {
-    console.log(err.message);
+    console.log("Connection error: ", err.message);
   });
 
-// creating Schema
+// Creating Schema
 const todoSchema = new mongoose.Schema({
-  title: String,
-  description: String,
+  title: { type: String, required: true },
+  description: { type: String, required: true },
 });
 
-//creating model
-const todoModel = mongoose.model("Todo", todoSchema);
+// Creating Model
+const Todo = mongoose.model("Todo", todoSchema);
 
+// Create a new Todo
 app.post("/todos", async (req, res) => {
   const { title, description } = req.body;
   if (!title || !description) {
-    return res
-      .status(400)
-      .json({ error: "Title and description are required." });
+    return res.status(400).json({ error: "Title and description are required." });
   }
   try {
-    const newTodo = new todoModel({ title, description });
+    const newTodo = new Todo({ title, description });
     await newTodo.save();
     res.status(201).json(newTodo);
   } catch (err) {
-    console.log(err);
-    req.status(500);
+    console.error(err.message);
+    res.status(500).json({ error: "Failed to create todo" });
   }
 });
 
-app.get("/",(req,res)=>{
-  res.send("Hello to my World")
-})
-
+// Retrieve all Todos
 app.get("/todos", async (req, res) => {
   try {
-    const todos = await todoModel.find();
+    const todos = await Todo.find();
     res.json(todos);
   } catch (error) {
-    console.log(error.message);
-    req.status(500);
+    console.error(error.message);
+    res.status(500).json({ error: "Failed to fetch todos" });
   }
 });
 
-app.put("/todos/:id", async (req,res) => {
+// Update a Todo by ID
+app.put("/todos/:id", async (req, res) => {
+  const { title, description } = req.body;
+  const id = req.params.id;
+  if (!title || !description) {
+    return res.status(400).json({ error: "Title and description are required." });
+  }
+
   try {
-    const { title, description } = req.body;
-    const id = req.params.id
-    const updatedTodo = await todoModel.findByIdAndUpdate(
+    const updatedTodo = await Todo.findByIdAndUpdate(
       id,
       { title, description },
-      {new: true}
-    )
+      { new: true, runValidators: true }  // new:true to return updated document
+    );
     if (!updatedTodo) {
-      return res.status(400).json({message:"todo not found"})
+      return res.status(404).json({ message: "Todo not found" });
     }
-    res.json(updatedTodo)
-    
+    res.json(updatedTodo);
   } catch (error) {
-    console.log(error.message);
-    req.status(500);
+    console.error(error.message);
+    res.status(500).json({ error: "Failed to update todo" });
   }
-})
+});
 
-app.delete("/todos/:id",async (req,res)=>{
+// Delete a Todo by ID
+app.delete("/todos/:id", async (req, res) => {
   try {
-    const id = req.params.id
-    await todoModel.findByIdAndDelete(id)
-    res.status(204).end()
+    const id = req.params.id;
+    const deletedTodo = await Todo.findByIdAndDelete(id);
+    if (!deletedTodo) {
+      return res.status(404).json({ message: "Todo not found" });
+    }
+    res.status(204).end();  // Successful deletion, no content to return
   } catch (error) {
-    console.log(error.message);
-    req.status(500);
+    console.error(error.message);
+    res.status(500).json({ error: "Failed to delete todo" });
   }
-})
+});
 
+// Root route
+app.get("/", (req, res) => {
+  res.send("Hello to my World");
+});
+
+// Starting the server
 app.listen(PORT, () => {
-  console.log("Server is running on Port", PORT);
+  console.log(`Server is running on Port ${PORT}`);
 });
